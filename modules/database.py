@@ -4,31 +4,38 @@ import os
 dirname = os.path.dirname(__file__)
 filename = os.path.join(dirname, '../database.db')
 
-db = SqliteDatabase(filename)
+db = SqliteDatabase(filename, pragmas=(('foreign_keys', 'on'),))
+
 
 #
 # Tables
 #
 
-class Ticket(Model):
-    id = CharField(null=True)
-    time = CharField(default=datetime.now())
-    address = DateTimeField()
-    nano = DecimalField()
-
-    class Meta:
-        database = db
-
 class Lottery(Model):
-    id = CharField(null=True)
-    time = CharField(default=datetime.now())
-    roll = DateTimeField()
-    winner = DecimalField()
+    id = IntegerField()
+    time = DateTimeField(default=datetime.now())
+    endblock = IntegerField()
+    nano = DecimalField()
+    roll = IntegerField(null=True)
+    winner = CharField(null=True)
 
     class Meta:
         database = db
 
-tables = [Ticket, Lottery]
+
+class Ticket(Model):
+    id = IntegerField(null=True)
+    ticket = IntegerField()
+    lottery = ForeignKeyField(Lottery, backref='tickets')
+    time = DateTimeField(default=datetime.now())
+    address = CharField()
+
+    class Meta:
+        database = db
+
+
+
+tables = [Lottery, Ticket]
 
 
 if __name__ == "__main__":
