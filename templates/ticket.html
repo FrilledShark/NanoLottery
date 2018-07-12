@@ -43,7 +43,7 @@
         <div class="container">
             <div class="columns">
                 <div class="column">
-                    <h1 class="title">Past tickets</h1>
+                    <h1 class="title">All tickets</h1>
                 </div>
                 <div align="right" class="column">
                     <a href="/lottery" class="button">Lotteries</a>
@@ -71,7 +71,7 @@
                     <td style="text-align: center;">{{row.endblock}}</td>
                     <td style="text-align: center;">{{row.ticket}}</td>
                     <td style="text-align: center;">{{row.time}}</td>
-                    <td style="text-align: center;"><a href="">{{row.account}}</a></td>
+                    <td style="text-align: center;"><a href="https://www.nanode.co/block/{{row.hash}}">{{row.account}}</a></td>
                 </tr>
             {% endfor %}
             </tbody>
