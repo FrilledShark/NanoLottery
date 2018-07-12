@@ -1,6 +1,4 @@
 import requests
-from random import choice
-from collections import Counter
 
 def blockchain_api(height):
     resp = requests.get(f'https://blockchain.info/block-height/{height}?format=json')
@@ -29,15 +27,3 @@ def roll_between(high, roll):
     if between_roll == high + 1:
         return 1
     return between_roll
-
-
-if __name__ == "__main__":
-    rolls = []
-    while True:
-        hex_list = "0123456789ABCDEF"
-        hex_roll = "".join(choice(hex_list) for x in range(8))
-        float_roll = roll(hex_roll)
-        rolls.append(roll_between(10, float_roll))
-
-        if len(rolls) % 1000 == 0:
-            print(Counter(rolls))

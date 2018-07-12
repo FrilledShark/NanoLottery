@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>NanoDice</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">-->
+    <link rel="stylesheet" href="/static/styles/bulma.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -38,4 +39,102 @@
     </div>
 </nav>
 </body>
+
+
+<section class="hero is-primary is-bold">
+    <div class="hero-body">
+        <div align="center" class="container">
+                <h1 class="title">Buy your ticket!</h1>
+                <h6 class="subtitle is-6"><a href="https://www.nanode.co/account/{{ address }}">{{ address }}</a></h6>
+                <div><img src="static/{{ address }}.png"></div>
+                <div>Ticket price = 0.01 Nano</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="hero is-small isbold is-warning">
+    <div class="hero-body">
+        <div align="center" class="container">
+            <h1 class="subtitle">Do not send from an exchange!</h1>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        Remaining time
+                    </p>
+                    <p class="title">
+                        {{ time }}
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        Pot
+                    </p>
+                    <p class="title">
+                        {{ pot }} Nano
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="hero is-light isbold">
+    <div class="hero-body">
+        <div id="form" class="container">
+            <div class="columns">
+                <div class="column">
+                    <form action="/" method="get">
+                        <input class="input" type="text" name="size" placeholder="Size of table"><br>
+                    </form>
+                </div>
+                <div class="column is-three-quarters"></div>
+            </div>
+
+        </div>
+        <div align="center" class="container">
+            <table class="table is-fullwidth is-hoverable">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">Date</th>
+                        <th style="text-align: center;">Tickets</th>
+                        <th style="text-align: center;">Address</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                {% for row in table %}
+                    <tr >
+                        <td style="text-align: center;">{{row.date}}</td>
+                        <td style="text-align: center;">{{row.tickets}}</td>
+                        <td style="text-align: center;"><a href="{{ row.link }}">{{row.address}}</a></td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+</<footer class="footer">
+  <div class="content has-text-centered">
+      <p>
+          <strong>Nano Lottery</strong> built for <a class="is-link" href="https://nano.org">Nano</a>
+      </p>
+  </div>
+</footer>
+</section>
+
+
 </html>

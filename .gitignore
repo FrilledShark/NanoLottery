@@ -1,0 +1,5 @@
+database.db
+.git
+.idea
+__pycache__
+config.json
