@@ -10,6 +10,7 @@ dirname = os.path.dirname(__file__)
 filename = os.path.join(dirname, 'config.json')
 with open(filename, 'r') as file:
     config = json.load(file)
+
 from nano.rpc import Client
 rpc = Client(config["rpc.client"])
 
@@ -78,16 +79,17 @@ if __name__ == "__main__":
 
                     # Sending to winner and dev funds.
                     pot_amount = tickets_sold * Decimal("0.01")
-                    pot_dev = pot_amount * Decimal(str(config["dev_fee"])) # Hurray for float precision! :D
+                    pot_dev = pot_amount * Decimal(str(config["dev_fee"]))  # Hurray for float precision! :D
                     pot_win = pot_amount - pot_dev
 
                     print(f'Winner account is: {winner_ticket.account}. He gets {pot_win}')
                     # Make sure the win amount is sent
-                    id = round(timenow())
+                    send_id = round(timenow())
                     while True:
                         try:
                             send_block = rpc.send(wallet=config["wallet"], source=config["account"],
-                                                  destination=winner_ticket.account, amount=int(pot_win * 10 ** 30), id=id)
+                                                  destination=winner_ticket.account, amount=int(pot_win * 10 ** 30),
+                                                  id=send_id)
                             if send_block:
                                 print(send_block)
                                 break
@@ -95,13 +97,13 @@ if __name__ == "__main__":
                             print(er)
                             pass
                     # sleep(0.01)
-                    id = round(timenow())
+                    send_id = round(timenow())
                     if config["dev_fee"] != 0:
                         while True:
                             try:
                                 send_block = rpc.send(wallet=config["wallet"], source=config["account"],
                                                       destination=config["dev_account"], amount=int(pot_dev * 10 ** 30),
-                                                      id=id)
+                                                      id=send_id)
                                 if send_block:
                                     print(send_block)
                                     break

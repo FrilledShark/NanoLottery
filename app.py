@@ -10,7 +10,6 @@ with open(filename, 'r') as file:
     config = json.load(file)
 
 
-
 app = Flask(__name__)
 
 
@@ -22,7 +21,7 @@ def index():
 
     # Calculating pot
     pot = Decimal(0)
-    for ticket in lottery.tickets:
+    for _ in lottery.tickets:
         pot += Decimal("0.01")
 
     # Calculating remaining time
@@ -36,16 +35,17 @@ def index():
                        "endblock": ticket.lottery.endblock}
         table.append(ticket_info)
 
-    return render_template("index.html", pot=pot, time=remaining_time, account=config["account"], table=table, endblock=lottery.endblock)
+    return render_template("index.html", pot=pot, time=remaining_time,
+                           account=config["account"], table=table, endblock=lottery.endblock)
 
 
 @app.route('/lottery', methods=['GET', 'POST'])
-def lottery():
+def lotteries():
     # Lotteries
     lottery_table = []
     for lottery in Lottery.select().order_by(Lottery.endblock.desc()):
         pot = Decimal(0)
-        for ticket in lottery.tickets:
+        for _ in lottery.tickets:
             pot += Decimal("0.01")
         lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
                        "pot": pot, "roll": lottery.roll, "winner": lottery.winner}
@@ -55,7 +55,7 @@ def lottery():
 
 
 @app.route('/ticket', methods=['GET', 'POST'])
-def ticket():
+def tickets():
     # Tickets
     ticket_table = []
     for ticket in Ticket.select().join(Lottery).order_by(Lottery.endblock.desc(), Ticket.ticket.desc()):
