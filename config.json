@@ -1,0 +1,17 @@
+{
+  "dev_fee"		: 0.5,
+  "ticket_price": 0.01,
+  "block_limit"	: 6,
+  "wallet"		: "",
+  "account"		: "",
+  "dev_account"		: "xrb_1zd94t1x5zuidfq1eozjg64gfxgf39wz1itfkznzj6yg4oq3ta3hsheewhqb",
+  "rpc.client"  : "http://[::1]:7076",
+  "database"    : {
+	"mysql": false,
+	"host" : "",
+	"port" : "",
+	"name" : "",
+	"user" : "",
+	"pass" : ""
+  }
+}
