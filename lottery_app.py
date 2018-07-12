@@ -26,13 +26,15 @@ if __name__ == "__main__":
         if current_block + 1 >= lottery.endblock:
             print("Lottery is due")
             # Getting date for next friday
-            today = date.today()
+            today = datetime.now()
             # # Getting time on friday
-            friday = today + timedelta((4 - today.weekday()) % 7)
-            # # Getting time for tomorrow # Only for testing
-            # friday = today + timedelta(days=1)
-            # Getting time on friday, 20:00
-            target = datetime.combine(friday, time(hour=20))
+            # friday = today + timedelta((4 - today.weekday()) % 7)
+            # # Getting time on friday, 20:00
+            # target = datetime.combine(friday, time(hour=20))
+
+            # Getting time for tomorrow # Only for testing
+            target = today + timedelta(hours=1)
+
             # Getting difference between today and friday, 20:00
             delta = target - datetime.now()
             # Getting difference in minutes
@@ -43,55 +45,78 @@ if __name__ == "__main__":
             # Create new lottery
             new_lottery = Lottery.create(id=lottery.id+1, time=datetime.now(), endblock=current_block+blocks)
             new_lottery.save()
+            print(f'New lottery created. Endblock {new_lottery.endblock}')
+            lottery.due = True
+            lottery.save()
 
-            # New lottery created. Last lottery should be fixed:
-            # Needs to get number of tickets sold
-            tickets_sold = 0
-            for ticket_sold in Ticket.select().join(Lottery).where(Lottery.id == lottery.id):
-                tickets_sold += 1
-            block_hash = fair.blockchain_api(lottery.endblock)
-            print(block_hash)
-            float_roll = fair.roll(block_hash)
-            print(float_roll)
+        # Fix due lotteries
+        # Check if any lotteries can be fixed:
+        lotteries_due = []
+        for lottery in Lottery.select().where(Lottery.due == True):
+            lotteries_due.append(lottery)
+        for lottery in lotteries_due:
+            # Possible to continue?
+            if current_block >= lottery.endblock:
+                # Needs to get number of tickets sold
+                tickets_sold = 0
+                for ticket_sold in Ticket.select().join(Lottery).where(Lottery.id == lottery.id):
+                    tickets_sold += 1
+                print(f'{tickets_sold} tickets sold')
+                block_hash = fair.blockchain_api(lottery.endblock)
+                print(block_hash)
+                float_roll = fair.roll(block_hash)
+                print(float_roll)
 
+                if tickets_sold != 0:
+                    final_roll = fair.roll_between(tickets_sold, float_roll)
 
-            if tickets_sold != 0:
-                final_roll = fair.roll_between(tickets_sold, float_roll)
+                    print(f'Ticket with number {final_roll} won!')
+                    # Inserting roll
+                    lottery.roll = final_roll
+                    # Finding winner
+                    winner_ticket = Ticket.get(Ticket.ticket == lottery.roll)
 
-                # Inserting roll
-                lottery.roll = final_roll
+                    # Sending to winner and dev funds.
+                    pot_amount = tickets_sold * Decimal("0.01")
+                    pot_dev = pot_amount * Decimal(str(config["dev_fee"])) # Hurray for float precision! :D
+                    pot_win = pot_amount - pot_dev
 
-                # Finding winner
-                winner_ticket = Ticket.select().where(Ticket.ticket == lottery.roll)
-
-                # Sending to winner and dev funds.
-                pot_amount = tickets_sold * 0.01
-                pot_win = pot_amount * config["dev_fee"]
-                pot_dev = pot_amount - pot_win
-                # Make sure the win amount is sent
-                id = round(timenow())
-                while True:
-                    try:
-                        if rpc.send(wallet=config["wallet"], source=config["address"],
-                                    destination=winner_ticket.address, amount=pot_win*10**30, id=id):
-                            break
-                    except:
-                        pass
-                sleep(1)
-                id = round(timenow())
-                while True:
-                    try:
-                        if rpc.send(wallet=config["wallet"], source=config["address"],
-                                    destination=winner_ticket.address, amount=pot_dev * 10 ** 30, id=id):
-                            break
-                    except:
-                        pass
-                # Things should be sent now.
-
-                lottery.save()
-            else:
-                print("Poor you, no one bought any tickets")
-
+                    print(f'Winner account is: {winner_ticket.account}. He gets {pot_win}')
+                    # Make sure the win amount is sent
+                    id = round(timenow())
+                    while True:
+                        try:
+                            send_block = rpc.send(wallet=config["wallet"], source=config["account"],
+                                                  destination=winner_ticket.account, amount=int(pot_win * 10 ** 30), id=id)
+                            if send_block:
+                                print(send_block)
+                                break
+                        except Exception as er:
+                            print(er)
+                            pass
+                    sleep(1)
+                    id = round(timenow())
+                    while True:
+                        try:
+                            send_block = rpc.send(wallet=config["wallet"], source=config["account"],
+                                                  destination=winner_ticket.account, amount=int(pot_dev * 10 ** 30), id=id)
+                            if send_block:
+                                print(send_block)
+                                break
+                        except Exception as er:
+                            print(er)
+                            pass
+                    # Things should be sent now.
+                    lottery.due = False
+                    lottery.save()
+                    print("Lottery out!")
+                else:
+                    print("Poor you, no one bought any tickets")
+                    lottery.due = False
+                    lottery.save()
+        for lottery in Lottery.select().order_by(Lottery.endblock.desc()):
+            lottery = lottery
+            break
         # Get pending transactions
         pending = rpc.pending(config["account"])
         if pending:
@@ -116,9 +141,9 @@ if __name__ == "__main__":
                     print(sold_tickets)
                     for i in range(tickets_bought):
                         ticket_number = max(sold_tickets) + 1 + i
-                        print(f'Sold: {ticket_number}')
+                        print(f'Sold: {ticket_number} to endblock {lottery.endblock}')
                         ticket = Ticket.create(ticket=ticket_number, lottery=lottery,
-                                               time=datetime.now(), address=rpc_account)
+                                               time=datetime.now(), account=rpc_account)
                         ticket.save()
                     rpc.receive(config["wallet"], config["account"], block)
         sleep(1)

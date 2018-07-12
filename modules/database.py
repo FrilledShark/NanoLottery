@@ -23,6 +23,7 @@ class Lottery(BaseModel):
     nano = DecimalField(null=True)
     roll = IntegerField(null=True)
     winner = CharField(null=True)
+    due = BooleanField(default=False)
 
 
 class Ticket(BaseModel):
@@ -30,7 +31,7 @@ class Ticket(BaseModel):
     ticket = IntegerField()
     lottery = ForeignKeyField(Lottery, backref='tickets')
     time = DateTimeField(default=datetime.now())
-    address = CharField()
+    account = CharField()
 
 
 
@@ -39,3 +40,4 @@ tables = [Lottery, Ticket]
 
 if __name__ == "__main__":
     db.create_tables(tables)
+    lottery = Lottery.create(id=0, endblock=1)
