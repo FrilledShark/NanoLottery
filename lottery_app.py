@@ -33,7 +33,7 @@ if __name__ == "__main__":
             # target = datetime.combine(friday, time(hour=20))
 
             # Getting time for tomorrow # Only for testing
-            target = today + timedelta(hours=1)
+            target = today + timedelta(hours=4)
 
             # Getting difference between today and friday, 20:00
             delta = target - datetime.now()
@@ -94,19 +94,20 @@ if __name__ == "__main__":
                         except Exception as er:
                             print(er)
                             pass
-                    sleep(1)
+                    # sleep(0.01)
                     id = round(timenow())
-                    while True:
-                        try:
-                            send_block = rpc.send(wallet=config["wallet"], source=config["account"],
-                                                  destination=winner_ticket.account, amount=int(pot_dev * 10 ** 30), id=id)
-                            if send_block:
-                                print(send_block)
-                                break
-                        except Exception as er:
-                            print(er)
-                            pass
-                    # Things should be sent now.
+                    if config["dev_fee"] != 0:
+                        while True:
+                            try:
+                                send_block = rpc.send(wallet=config["wallet"], source=config["account"],
+                                                      destination=winner_ticket.account, amount=int(pot_dev * 10 ** 30), id=id)
+                                if send_block:
+                                    print(send_block)
+                                    break
+                            except Exception as er:
+                                print(er)
+                                pass
+                        # Things should be sent now.
                     lottery.due = False
                     lottery.save()
                     print("Lottery out!")

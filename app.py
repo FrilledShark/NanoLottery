@@ -39,5 +39,17 @@ def index():
     return render_template("index.html", pot=pot, time=remaining_time, account=config["account"], table=table, endblock=lottery.endblock)
 
 
+@app.route('/history', methods=['GET', 'POST'])
+def history():
+
+    # Lotteries
+
+
+    # Tickets
+
+    return render_template("history.html")
+
+
+
 if __name__ == "__main__":
     app.run()

@@ -1,16 +1,18 @@
 import requests
 
+
 def blockchain_api(height):
     resp = requests.get(f'https://blockchain.info/block-height/{height}?format=json')
     block = resp.json()
-    hash = block["blocks"][0]['hash']
-    return hash
+    block_hash = block["blocks"][0]['hash']
+    return block_hash
 
 
 def last_blockchain():
     resp = requests.get('https://blockchain.info/q/getblockcount')
     block = resp.json()
     return block
+
 
 def roll(block_hash):
     length = 8
@@ -20,8 +22,8 @@ def roll(block_hash):
     return roll_hash/max_deci
 
 
-def roll_between(high, roll):
-    between_roll = round(roll * high) + 1
+def roll_between(high, roll_int):
+    between_roll = round(roll_int * high) + 1
     # Highest and lowest share their win rate. Add them together to get correct roll.
     # Also fixes the problem that this generates high + 1 results.
     if between_roll == high + 1:
