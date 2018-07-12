@@ -32,7 +32,7 @@ class Ticket(BaseModel):
     lottery = ForeignKeyField(Lottery, backref='tickets')
     time = DateTimeField(default=datetime.now())
     account = CharField()
-
+    hash = CharField(null=True)
 
 
 tables = [Lottery, Ticket]
@@ -40,4 +40,4 @@ tables = [Lottery, Ticket]
 
 if __name__ == "__main__":
     db.create_tables(tables)
-    lottery = Lottery.create(id=0, endblock=1)
+    # lottery = Lottery.create(id=0, endblock=1)

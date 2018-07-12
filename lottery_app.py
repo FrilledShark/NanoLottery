@@ -100,7 +100,8 @@ if __name__ == "__main__":
                         while True:
                             try:
                                 send_block = rpc.send(wallet=config["wallet"], source=config["account"],
-                                                      destination=winner_ticket.account, amount=int(pot_dev * 10 ** 30), id=id)
+                                                      destination=config["dev_account"], amount=int(pot_dev * 10 ** 30),
+                                                      id=id)
                                 if send_block:
                                     print(send_block)
                                     break
@@ -108,6 +109,7 @@ if __name__ == "__main__":
                                 print(er)
                                 pass
                         # Things should be sent now.
+                    lottery.winner = winner_ticket.account
                     lottery.due = False
                     lottery.save()
                     print("Lottery out!")
@@ -144,8 +146,7 @@ if __name__ == "__main__":
                         ticket_number = max(sold_tickets) + 1 + i
                         print(f'Sold: {ticket_number} to endblock {lottery.endblock}')
                         ticket = Ticket.create(ticket=ticket_number, lottery=lottery,
-                                               time=datetime.now(), account=rpc_account)
+                                               time=datetime.now(), account=rpc_account, hash=block)
                         ticket.save()
                     rpc.receive(config["wallet"], config["account"], block)
         sleep(1)
-
