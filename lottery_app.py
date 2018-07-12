@@ -19,7 +19,7 @@ if __name__ == "__main__":
     print(rpc.receive_minimum_set(1 * 10 ** 36))
     db.connect()
     while True:
-        # First, check if current lottery is  duedate
+        # First, check if current lottery is duedate
         for lottery in Lottery.select().order_by(Lottery.endblock.desc()):
             lottery = lottery
             break
