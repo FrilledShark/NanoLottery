@@ -23,7 +23,7 @@ if __name__ == "__main__":
             lottery = lottery
             break
         current_block = fair.last_blockchain()
-        if current_block + 1 >= lottery.endblock:
+        if current_block + config["block_limit"] >= lottery.endblock:
             print("Lottery is due")
             # Getting date for next friday
             today = datetime.now()

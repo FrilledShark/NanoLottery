@@ -1,7 +1,7 @@
 {
-  "dev_fee"		: 0.5,
+  "dev_fee"		: 0,
   "ticket_price": 0.01,
-  "block_limit"	: 6,
+  "block_limit"	: 1,
   "wallet"		: "",
   "account"		: "",
   "dev_account"		: "xrb_1zd94t1x5zuidfq1eozjg64gfxgf39wz1itfkznzj6yg4oq3ta3hsheewhqb",

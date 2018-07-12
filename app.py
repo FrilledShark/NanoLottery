@@ -27,15 +27,16 @@ def index():
 
     # Calculating remaining time
 
-    remaining_blocks = lottery.endblock - last_blockchain()
+    remaining_blocks = lottery.endblock - last_blockchain() - config["block_limit"]
 
     remaining_time = remaining_blocks*10
     table = []
     for ticket in lottery.tickets.order_by(Ticket.time.desc()):
-        ticket_info = {"date": ticket.time, "ticket": ticket.ticket, "account": ticket.account}
+        ticket_info = {"date": ticket.time, "ticket": ticket.ticket, "account": ticket.account,
+                       "endblock": ticket.lottery.endblock}
         table.append(ticket_info)
 
-    return render_template("index.html", pot=pot, time=remaining_time, account=config["account"], table=table)
+    return render_template("index.html", pot=pot, time=remaining_time, account=config["account"], table=table, endblock=lottery.endblock)
 
 
 if __name__ == "__main__":
