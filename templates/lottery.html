@@ -81,7 +81,8 @@
                         <th style="text-align: center;">Start Date (UTC)</th>
                         <th style="text-align: center;">Pot size</th>
                         <th style="text-align: center;">Roll</th>
-                        <th style="text-align: center;">Winner</th>
+                        <th style="text-align: center;" class="is-hidden-touch">Winner</th>
+                        <th style="text-align: center;" class="is-hidden-desktop">Winner</th>
                     </tr>
                   </thead>
                 <tbody>
@@ -91,8 +92,8 @@
                         <td style="text-align: center;">{{row.time}}</td>
                         <td style="text-align: center;">{{row.pot}}</td>
                         <td style="text-align: center;">{{row.roll}}</td>
-                        <td style="text-align: center;"><a class="has-text-dark is-hidden-touch" href="https://www.nanode.co/block/{{row.winner_hash}}"><u>{{row.winner}}</u></a></td>
-                        <td style="text-align: center;"><a class="has-text-dark is-hidden-desktop" href="https://www.nanode.co/block/{{row.winner_hash}}"><u>{{row.alt_winner}}</u></a></td>
+                        <td style="text-align: center;"  class="has-text-dark is-hidden-touch"><a href="https://www.nanode.co/block/{{row.winner_hash}}"><u>{{row.winner}}</u></a></td>
+                        <td style="text-align: center;"  class="has-text-dark is-hidden-desktop"><a href="https://www.nanode.co/block/{{row.winner_hash}}"><u>{{row.alt_winner}}</u></a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
