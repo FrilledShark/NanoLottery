@@ -83,16 +83,16 @@
             </p>
             <pre align="center">(FFFFFFFF)<sub>16</sub>  = (4294967295)<sub>10</sub></pre>
             <p>
-                By dividing the 2 numbers with eachother, we get a decimal number.
+                By dividing the 2 numbers with each other, we get a decimal number.
             </p>
-            <pre align="center">2710854916/4294967295 = 0.6311700951</pre>
+            <pre align="center">2710854916/4294967295 = 0.6311700951 = 63</pre>
             <p>
-                The decimal number represents lottery ticket won as a percentage from 0 to 1 and can be converted to the ticket number. Lets say the lottery sold 10000 lottery tickets.
+                The decimal number can be converted to a ticket number by multiplying it with the number of tickets and adding 1. In this example, the lottery sold 10000 lottery tickets.
             </p>
             <pre align="center">round(0.6311700951 * 10000) + 1 = 6313</pre>
             <p>
                 The person with lottery ticket 6313 won.
-                <br>Note: This method also return lottery ticket + 1, which has 50% less chance to win than any other ticket number, but lottery ticket 1 which also is 50% worse than all other tickets. Therefore tickets sold + 1 and 1 are added together and count for lottery ticket 1.
+                <br>Note: This method also returns lottery ticket + 1, which has 50% less chance to win than any other ticket number, but lottery ticket 1 which also is 50% worse than all other tickets. Therefore tickets sold + 1 and 1 are added together and count for lottery ticket 1.
             </p>
         </div>
     </div>
