@@ -43,9 +43,9 @@
     <div class="hero-body">
         <div align="center" class="container">
             <h1 class="title">Buy your ticket!</h1>
-                <h6 class="subtitle is-6">{{ account }}</h6>
-                <div><a href="xrb:{{account}}"><img src="/static/{{ account }}.png"></a></div>
-                <div>Ticket price = 0.01 Nano</div>
+            <h6 class="subtitle is-6">{{ account }} <button class="btn button is-small is-primary is-inverted is-outlined" data-clipboard-text="{{account}}">Copy</button></h6>
+            <div><a href="xrb:{{account}}"><img src="/static/{{ account }}.png"></a></div>
+            <div>Ticket price = 0.01 Nano</div>
             </div>
         </div>
     </div>
@@ -146,5 +146,19 @@
       </p>
   </div>
 </footer>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+
+<script>
+var clipboard = new ClipboardJS('.btn');
+clipboard.on('success', function(e) {
+    console.log(e);
+});
+clipboard.on('error', function(e) {
+    console.log(e);
+});
+</script>
 </body>
 </html>
