@@ -61,7 +61,7 @@ def lotteries():
             pot += Decimal("0.01")
         if lottery.due:
             lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
-                           "pot": pot, "roll": "Waiting for", "winner": "Bitcoin block"}
+                           "pot": pot, "roll": "In progress", "winner": lottery.winner}
         else:
             lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
                        "pot": pot, "roll": lottery.roll, "winner": lottery.winner}
