@@ -56,6 +56,14 @@
 
 <section class="section">
     <div class="container">
+        <div class="columns">
+            <div class="column">
+                <form action="/lottery" method="get">
+                    <input class="input" type="text" name="size" placeholder="Size of table"><br>
+                </form>
+            </div>
+            <div class="column is-three-quarters"></div>
+        </div>
         <table class="table is-fullwidth is-hoverable">
             <thead>
                 <tr>
@@ -63,7 +71,7 @@
                     <th style="text-align: center;">Date</th>
                     <th style="text-align: center;">Pot size</th>
                     <th style="text-align: center;">Roll</th>
-                    <th style="text-align: center;">Winner</th>
+                    <th class="is-hidden-mobile" style="text-align: center;">Winner</th>
                 </tr>
               </thead>
             <tbody>
@@ -73,7 +81,7 @@
                     <td style="text-align: center;">{{row.time}}</td>
                     <td style="text-align: center;">{{row.pot}}</td>
                     <td style="text-align: center;">{{row.roll}}</td>
-                    <td style="text-align: center;">{{row.winner}}</td>
+                    <td class="is-hidden-mobile" style="text-align: center;">{{row.winner}}</td>
                 </tr>
             {% endfor %}
             </tbody>

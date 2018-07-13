@@ -104,7 +104,7 @@
             <div class="columns">
                 <div class="column">
                     <form action="/" method="get">
-                        <input class="input" type="text" name="size" placeholder="(WIP) Size of table"><br>
+                        <input class="input" type="text" name="size" placeholder="Size of table"><br>
                     </form>
                 </div>
                 <div class="column is-three-quarters"></div>
@@ -118,7 +118,7 @@
                         <th style="text-align: center;">Endblock</th>
                         <th style="text-align: center;">Date</th>
                         <th style="text-align: center;">Tickets</th>
-                        <th style="text-align: center;">Address</th>
+                        <th class="is-hidden-mobile" style="text-align: center;">Address</th>
                     </tr>
                   </thead>
                 <tbody>
@@ -127,7 +127,7 @@
                         <td style="text-align: center;">{{row.endblock}}</td>
                         <td style="text-align: center;">{{row.date}}</td>
                         <td style="text-align: center;">{{row.ticket}}</td>
-                        <td style="text-align: center;"><a href="{{ row.link }}">{{row.account}}</a></td>
+                        <td class="is-hidden-mobile" style="text-align: center;"><a href="https://www.nanode.co/block/{{row.hash}}">{{row.account}}</a></td>
                     </tr>
                 {% endfor %}
 

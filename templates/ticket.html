@@ -56,13 +56,21 @@
 
 <section class="section">
     <div class="container">
+        <div class="columns">
+            <div class="column">
+                <form action="/ticket" method="get">
+                    <input class="input" type="text" name="size" placeholder="Size of table"><br>
+                </form>
+            </div>
+            <div class="column is-three-quarters"></div>
+        </div>
         <table class="table is-fullwidth is-hoverable">
             <thead>
                 <tr>
                     <th style="text-align: center;">Lottery Endblock</th>
                     <th style="text-align: center;">Ticket</th>
                     <th style="text-align: center;">Date</th>
-                    <th style="text-align: center;">Account</th>
+                    <th class="is-hidden-mobile" style="text-align: center;">Account</th>
                 </tr>
               </thead>
             <tbody>
@@ -71,7 +79,7 @@
                     <td style="text-align: center;">{{row.endblock}}</td>
                     <td style="text-align: center;">{{row.ticket}}</td>
                     <td style="text-align: center;">{{row.time}}</td>
-                    <td style="text-align: center;"><a href="https://www.nanode.co/block/{{row.hash}}">{{row.account}}</a></td>
+                    <td class="is-hidden-mobile" style="text-align: center;"><a href="https://www.nanode.co/block/{{row.hash}}">{{row.account}}</a></td>
                 </tr>
             {% endfor %}
             </tbody>
