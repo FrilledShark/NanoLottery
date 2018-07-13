@@ -9,8 +9,9 @@ filename = os.path.join(dirname, 'config.json')
 with open(filename, 'r') as file:
     config = json.load(file)
 
-
 app = Flask(__name__)
+
+
 def limit_table_size(table):
     table_size=100
     if request:
@@ -19,6 +20,7 @@ def limit_table_size(table):
     if len(table) > table_size:
         return table[:table_size]
     return table
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -77,6 +79,10 @@ def tickets():
     ticket_table = limit_table_size(ticket_table)
 
     return render_template("ticket.html", ticket_table=ticket_table)
+
+@app.route('/fair', methods=['GET', 'POST'])
+def fair():
+    return render_template("fair.html")
 
 
 if __name__ == "__main__":

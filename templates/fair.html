@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Provably Fair | Nano Lottery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<nav id="navbar" class="navbar" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a href="/" class="navbar-item is-size-4 has-text-weight-bold">
+                Nano Lottery
+            </a>
+
+             <a href="/lottery" class="navbar-item is-hidden-desktop is-hidden-widescreen">
+                History
+            </a>
+            <a href="/fair" class="navbar-item is-hidden-desktop is-hidden-widescreen is-active">
+                Fairness
+            </a>
+
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <a href="/lottery" class="navbar-item">
+                    History
+                </a>
+                <a href="/fair" class="navbar-item is-active">
+                    Fairness
+                </a>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<section class="hero is-small is-bold is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <div>
+                <h1 class="title">Provably Fair</h1>
+                <h2 class="subtitle">Using Bitcoin blockchain</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="content">
+            <h2 class="subtitle">What is provably fair?</h2>
+            <p>Provably fair is when the game can be proved to be fair. The lottery operator doesn't know the winner or the loser before the players. The players will therefore be able to verify the winner just as the operator found the winner.</p>
+        </div>
+    </div>
+</section>
+
+<section class="hero is-small is-bold is-link">
+    <div class="hero-body">
+        <div align="center" class="container">
+             <p><a href="https://github.com/FrilledShark/NanoLottery/blob/master/modules/fair.py">The details in code for finding the winner can be found in the fair module on the site's github</a></p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+     <div class="container">
+        <div class="content">
+            <p>
+                The provably fair works by creating the lottery and broadcasting a block on the Bitcoin blockchain in the future. This block can be read <a href="/">here</a> for the current lottery.
+                <br>When nearing the block, the lottery will close the lottery and open a new. This is to protect against abuse. This will finalise the lottery and prepare for finding the winner.
+                <br>When the block is mined the Bitcoin SHA-256 hash of the block is stored.
+            </p>
+            <pre align="center">block: #500000 = 00000000000000000024fb37364cbf81fd49cc2d51c09c75c35433c3a1945d04</pre>
+            <p>
+                The first part of the hash is the part the miners want, however it will always be really small. We will instead be focusing on the untouched last part of the hash. Specifically the last 8 characters. "a1945d04". This is encoded in hex and has to be converted to an integer.
+            </p>
+            <pre align="center">(a1945d04)<sub>16</sub>  = (2710854916)<sub>10</sub></pre>
+            <p>
+                We can find the difference between this number and the max roll possible, FFFFFFFF.
+            </p>
+            <pre align="center">(FFFFFFFF)<sub>16</sub>  = (4294967295)<sub>10</sub></pre>
+            <p>
+                By dividing the 2 numbers with eachother, we get a decimal number.
+            </p>
+            <pre align="center">2710854916/4294967295 = 0.6311700951</pre>
+            <p>
+                The decimal number represents lottery ticket won as a percentage from 0 to 1 and can be converted to the ticket number. Lets say the lottery sold 10000 lottery tickets.
+            </p>
+            <pre align="center">round(0.6311700951 * 10000) + 1 = 6313</pre>
+            <p>
+                The person with lottery ticket 6313 won.
+                <br>Note: This method also return lottery ticket + 1, which has 50% less chance to win than any other ticket number, but lottery ticket 1 which also is 50% worse than all other tickets. Therefore tickets sold + 1 and 1 are added together and count for lottery ticket 1.
+            </p>
+        </div>
+    </div>
+</section>
+<footer class="footer">
+  <div class="content has-text-centered">
+      <p>
+          <strong><a href="https://github.com/FrilledShark/NanoLottery">Nano Lottery</a></strong> built for <a class="is-link" href="https://nano.org">Nano</a>
+
+      </p>
+  </div>
+</footer>
+
+
+</body>
+</html>
