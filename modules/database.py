@@ -24,7 +24,7 @@ class Lottery(BaseModel):
     roll = IntegerField(null=True)
     winner = CharField(null=True)
     winner_hash = CharField(null=True)
-    due = BooleanField(default=False)
+    due = BooleanField(null=True)
 
 
 class Ticket(BaseModel):
