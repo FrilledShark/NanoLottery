@@ -28,8 +28,8 @@ def roll(block_hash):
     length = 8
     max_hex = "".join("f" for x in range(length))
     max_deci = int(max_hex, 16)
-    roll_hash = int(block_hash[-length:], 16)
-    return roll_hash/max_deci
+    roll_deci = int(block_hash[-length:], 16)
+    return roll_deci/max_deci
 
 
 def roll_between(high, roll_int):
