@@ -2,7 +2,7 @@
 A lottery for Nano currency with the purpose of funding the goals of different projects. The lottery website and lottery itself is completely open source on Github.
 
 # Running
-The Nano lottery is a written in Python-3.6.5 and the requirements can be found in the requirements file. The main interest is Flask, which is to display the web page and show users the lottery.
+Nano lottery is written in Python-3.6.5 and the library requirements can be found in requirements.txt. The main interest is Flask, which is to display the web page and show users the lottery.
 The Flask app can easily be edited along with the templates in the template folder if additional features are wanted.
 Another interest would be the Nano node. Nano-python is used to communicate with the Nano. If node is not running locally (which is recommended), change the settings in config.json. Keep in mind, the software does not lock/unlock the wallet and running a node with a public RPC is a security concern.
 
