@@ -56,20 +56,26 @@ def lotteries():
     # Lotteries
     lottery_table = []
     for lottery in Lottery.select().order_by(Lottery.endblock.desc()):
+        if lottery.winner:
+            lottery_winner = lottery.winner
+            alt_winner = f'{lottery.winner[:8]}...{lottery.winner[-4:]}'
+        else:
+            lottery_winner = None
+            alt_winner = None
         pot = Decimal(0)
         for _ in lottery.tickets:
             pot += Decimal("0.01")
 
         if lottery.due == False:
             lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
-                           "pot": pot, "roll": lottery.roll, "winner": lottery.winner,
-                           "winner_hash": lottery.winner_hash, "alt_winner": f'{lottery.winner[:8]}...{lottery.winner[-4:]}'}
+                           "pot": pot, "roll": lottery.roll, "winner": lottery_winner,
+                           "winner_hash": lottery.winner_hash, "alt_winner": alt_winner}
         elif lottery.due == True:
             lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
-                           "pot": pot, "roll": "Waiting for block for ", "winner": lottery.winner, "alt_winner": f'{lottery.winner[:8]}...{lottery.winner[-4:]}'}
+                           "pot": pot, "roll": "Waiting for block for ", "winner": lottery_winner, "alt_winner": alt_winner}
         elif lottery.due == None:
             lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
-                           "pot": pot, "roll": "In progress", "winner": lottery.winner, "alt_winner": f'{lottery.winner[:8]}...{lottery.winner[-4:]}'}
+                           "pot": pot, "roll": "In progress", "winner": lottery_winner, "alt_winner": alt_winner}
 
         lottery_table.append(lottery_dir)
 
