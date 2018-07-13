@@ -63,13 +63,13 @@ def lotteries():
         if lottery.due == False:
             lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
                            "pot": pot, "roll": lottery.roll, "winner": lottery.winner,
-                           "winner_hash": lottery.winner_hash}
+                           "winner_hash": lottery.winner_hash, "alt_winner": f'{lottery.winner[:8]}...{lottery.winner[-4:]}'}
         elif lottery.due == True:
             lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
-                           "pot": pot, "roll": "Waiting for block for ", "winner": lottery.winner}
+                           "pot": pot, "roll": "Waiting for block for ", "winner": lottery.winner, "alt_winner": f'{lottery.winner[:8]}...{lottery.winner[-4:]}'}
         elif lottery.due == None:
             lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
-                           "pot": pot, "roll": "In progress", "winner": lottery.winner}
+                           "pot": pot, "roll": "In progress", "winner": lottery.winner, "alt_winner": f'{lottery.winner[:8]}...{lottery.winner[-4:]}'}
 
         lottery_table.append(lottery_dir)
 
