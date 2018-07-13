@@ -43,8 +43,8 @@
     <div class="hero-body">
         <div align="center" class="container">
                 <h1 class="title">Buy your ticket!</h1>
-                <h6 class="subtitle is-6"><a href="https://www.nanode.co/account/{{ account }}">{{ account }}</a></h6>
-                <div><img src="/static/{{ account }}.gif"></div>
+                <h6 class="subtitle is-6">{{ account }}</h6>
+                <div><a href="https://www.nanode.co/account/{{ account }}"><img src="/static/{{ account }}.png"></a></div>
                 <div>Ticket price = 0.01 Nano</div>
             </div>
         </div>
@@ -79,7 +79,7 @@
                         Current Draw Number
                     </p>
                     <p class="title">
-                        <a class="has-text-dark" href="https://www.blockchain.com/da/btc/blocks">{{ endblock }}</a>
+                        <a class="has-text-dark" href="https://www.blockchain.com/btc/blocks">{{ endblock }}</a>
                     </p>
                 </div>
             </div>
@@ -115,18 +115,20 @@
                 <thead>
                     <tr>
                         <!--<th style="text-align: center;">Draw Number</th>-->
-                        <th style="text-align: center;">Date<sub class="is-size-7">UTC</sub></th>
                         <th style="text-align: center;">Ticket Number</th>
-                        <th class="is-hidden-mobile" style="text-align: center;">Address</th>
+                        <th style="text-align: center;">Purchase Date (UTC)</th>
+                        <th style="text-align: center;" class="is-hidden-touch">Account</th>
+                        <th style="text-align: center;" class="is-hidden-desktop">Account</th>
                     </tr>
                   </thead>
                 <tbody>
                 {% for row in table %}
                     <tr >
                         <!--<td style="text-align: center;">{{row.endblock}}</td>-->
-                        <td style="text-align: center;">{{row.date}}</td>
                         <td style="text-align: center;">{{row.ticket}}</td>
-                        <td class="is-hidden-mobile" style="text-align: center;"><a href="https://www.nanode.co/block/{{row.hash}}">{{row.account}}</a></td>
+                        <td style="text-align: center;">{{row.date}}</td>
+                        <td style="text-align: center;" class="is-hidden-touch" ><a class="" href="https://www.nanode.co/block/{{row.hash}}">{{row.account}}</a></td>
+                        <td style="text-align: center;" class="is-hidden-desktop"><a href="https://www.nanode.co/block/{{row.hash}}">{{row.altaccount}}</a></td>
                     </tr>
                 {% endfor %}
 
