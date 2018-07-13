@@ -75,7 +75,7 @@ if __name__ == "__main__":
                     # Inserting roll
                     lottery.roll = final_roll
                     # Finding winner
-                    winner_ticket = Ticket.get(Ticket.ticket == lottery.roll)
+                    winner_ticket = Ticket.get(Ticket.ticket == 1 and Ticket.lottery == lottery)
 
                     # Sending to winner and dev funds.
                     pot_amount = tickets_sold * Decimal("0.01")
