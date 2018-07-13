@@ -2,15 +2,25 @@ import requests
 
 
 def blockchain_api(height):
-    resp = requests.get(f'https://blockchain.info/block-height/{height}?format=json')
-    block = resp.json()
-    block_hash = block["blocks"][0]['hash']
+    while True:
+        try:
+            resp = requests.get(f'https://blockchain.info/block-height/{height}?format=json')
+            block = resp.json()
+            block_hash = block["blocks"][0]['hash']
+            break
+        except:
+            print("Cannot get height. Trying again.")
     return block_hash
 
 
 def last_blockchain():
-    resp = requests.get('https://blockchain.info/q/getblockcount')
-    block = resp.json()
+    while True:
+        try:
+            resp = requests.get('https://blockchain.info/q/getblockcount')
+            block = resp.json()
+            break
+        except:
+            print("Cannot get last height. Trying again.")
     return block
 
 
