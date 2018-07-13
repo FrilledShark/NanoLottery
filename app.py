@@ -59,7 +59,11 @@ def lotteries():
         pot = Decimal(0)
         for _ in lottery.tickets:
             pot += Decimal("0.01")
-        lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
+        if lottery.due:
+            lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
+                           "pot": pot, "roll": "Waiting for", "winner": "Bitcoin block"}
+        else:
+            lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
                        "pot": pot, "roll": lottery.roll, "winner": lottery.winner}
         lottery_table.append(lottery_dir)
 
