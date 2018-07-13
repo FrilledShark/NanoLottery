@@ -41,7 +41,8 @@ def index():
     table = []
     for ticket in lottery.tickets.order_by(Ticket.time.desc()):
         ticket_info = {"date": str(ticket.time)[:19], "ticket": ticket.ticket, "account": ticket.account,
-                       "endblock": ticket.lottery.endblock, "hash": ticket.hash, "altaccount": f'{ticket.account[:10]}'}
+                       "endblock": ticket.lottery.endblock, "hash": ticket.hash,
+                       "altaccount": f'{ticket.account[:8]}...{ticket.account[-4:]}'}
         table.append(ticket_info)
 
     table = limit_table_size(table)
