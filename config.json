@@ -3,7 +3,7 @@
   "ticket_price": 0.01,
   "block_limit"	: 1,
   "wallet"		: "",
-  "account"		: "",
+  "account"		: "xrb_17h1imjes17gr8fantofykyztfe7g3ag1yqgp1qtjdhs3dfnwds5bzzp6u81",
   "dev_account"		: "xrb_1zd94t1x5zuidfq1eozjg64gfxgf39wz1itfkznzj6yg4oq3ta3hsheewhqb",
   "rpc.client"  : "http://[::1]:7076",
   "database"    : {
