@@ -97,6 +97,7 @@ if __name__ == "__main__":
                             print(er)
                             pass
                     # sleep(0.01)
+                    lottery.winner_hash = send_block
                     send_id = round(timenow())
                     if config["dev_fee"] != 0:
                         while True:

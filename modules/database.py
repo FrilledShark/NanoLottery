@@ -23,6 +23,7 @@ class Lottery(BaseModel):
     nano = DecimalField(null=True)
     roll = IntegerField(null=True)
     winner = CharField(null=True)
+    winner_hash = CharField(null=True)
     due = BooleanField(default=False)
 
 

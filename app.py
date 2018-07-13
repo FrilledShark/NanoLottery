@@ -64,7 +64,8 @@ def lotteries():
                            "pot": pot, "roll": "In progress", "winner": lottery.winner}
         else:
             lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
-                       "pot": pot, "roll": lottery.roll, "winner": lottery.winner}
+                           "pot": pot, "roll": lottery.roll, "winner": lottery.winner,
+                           "winner_hash": lottery.winner_hash}
         lottery_table.append(lottery_dir)
 
         lottery_table = limit_table_size(lottery_table)
