@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 
 def limit_table_size(table):
-    table_size=100
+    table_size = 100
     if request:
         if request.args:
             table_size = int(request.args["size"])
@@ -63,18 +63,16 @@ def lotteries():
         else:
             lottery_winner = None
             alt_winner = None
-        # pot = Decimal(0)
-        # for _ in lottery.tickets:
-        #    pot += Decimal("0.01")
+
         pot = lottery.tickets.count() * Decimal("0.01")
 
-        if not lottery.due:
+        if lottery.due is False:  # Has to be 'is False' as it would otherwise trigger on None.
             lottery_dir = {"id": lottery.id, "endblock": lottery.endblock, "time": str(lottery.time)[:19],
                            "pot": pot, "roll": lottery.roll, "winner": lottery_winner,
                            "winner_hash": lottery.winner_hash, "alt_winner": alt_winner}
         elif lottery.due:
             lottery_dir = {"id": lottery.id, "endblock": lottery.endblock, "time": str(lottery.time)[:19],
-                           "pot": pot, "roll": "Waiting for block for ", "winner": lottery_winner, "alt_winner": alt_winner}
+                           "pot": pot, "roll": "Waiting for block ", "winner": lottery_winner, "alt_winner": alt_winner}
         elif lottery.due is None:
             lottery_dir = {"id": lottery.id, "endblock": lottery.endblock, "time": str(lottery.time)[:19],
                            "pot": pot, "roll": "In progress", "winner": lottery_winner, "alt_winner": alt_winner}
