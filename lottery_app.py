@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
         # Fix due lotteries
         # Check if any lotteries can be fixed:
-        for lottery in Lottery.select().where(Lottery.due == True)
+        for lottery in Lottery.select().where(Lottery.due == True):
             # Possible to continue?
             if current_block >= lottery.endblock:
                 # Needs to get number of tickets sold
