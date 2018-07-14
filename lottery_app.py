@@ -71,7 +71,7 @@ if __name__ == "__main__":
                     # Inserting roll
                     lottery.roll = final_roll
                     # Finding winner
-                    winner_ticket = lottery.tickets.select().where(Ticket.ticket == 7)
+                    winner_ticket = lottery.tickets.select().where(Ticket.ticket == lottery.roll)
                     # Select the first instance. (There should only be one)
                     winner_ticket = winner_ticket[0]
 
