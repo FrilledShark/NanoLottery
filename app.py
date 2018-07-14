@@ -24,10 +24,8 @@ def limit_table_size(table):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-
-    for lottery in Lottery.select().order_by(Lottery.endblock.desc()):
-        lottery = lottery
-        break
+    # Selecting the most recent lottery
+    lottery = Lottery.select().order_by(Lottery.endblock.desc())[0]
 
     # Calculating pot
     pot = Decimal(0)
