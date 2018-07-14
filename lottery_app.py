@@ -20,9 +20,8 @@ if __name__ == "__main__":
     db.connect()
     while True:
         # First, check if current lottery is duedate
-        for lottery in Lottery.select().order_by(Lottery.endblock.desc()):
-            lottery = lottery
-            break
+        lottery = Lottery.select().order_by(Lottery.endblock.desc())[0]
+
         current_block = fair.last_blockchain()
         if current_block + config["block_limit"] >= lottery.endblock:
             print("Lottery is due")
@@ -52,10 +51,7 @@ if __name__ == "__main__":
 
         # Fix due lotteries
         # Check if any lotteries can be fixed:
-        lotteries_due = []
-        for lottery in Lottery.select().where(Lottery.due == True):
-            lotteries_due.append(lottery)
-        for lottery in lotteries_due:
+        for lottery in Lottery.select().where(Lottery.due == True)
             # Possible to continue?
             if current_block >= lottery.endblock:
                 # Needs to get number of tickets sold
@@ -75,7 +71,9 @@ if __name__ == "__main__":
                     # Inserting roll
                     lottery.roll = final_roll
                     # Finding winner
-                    winner_ticket = Ticket.get(Ticket.ticket == lottery.roll and Ticket.lottery == lottery)
+                    winner_ticket = lottery.tickets.select().where(Ticket.ticket == 7)
+                    # Select the first instance. (There should only be one)
+                    winner_ticket = winner_ticket[0]
 
                     # Sending to winner and dev funds.
                     pot_amount = tickets_sold * Decimal("0.01")
@@ -120,9 +118,8 @@ if __name__ == "__main__":
                     print("Poor you, no one bought any tickets")
                     lottery.due = False
                     lottery.save()
-        for lottery in Lottery.select().order_by(Lottery.endblock.desc()):
-            lottery = lottery
-            break
+
+        lottery = Lottery.select().order_by(Lottery.endblock.desc())[0]
         # Get pending transactions
         pending = rpc.pending(config["account"])
         if pending:
