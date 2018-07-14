@@ -78,16 +78,18 @@
                 <thead>
                     <tr>
                         <th style="text-align: center;">Drawing Number</th>
+                        <th style="text-align: center;">End Block</th>
                         <th style="text-align: center;">Start Date (UTC)</th>
                         <th style="text-align: center;">Pot size</th>
-                        <th style="text-align: center;">Roll</th>
-                        <th style="text-align: center;" class="is-hidden-touch">Winner</th>
-                        <th style="text-align: center;" class="is-hidden-desktop">Winner</th>
+                        <th style="text-align: center;">Winning Ticket</th>
+                        <th style="text-align: center;" class="is-hidden-touch">Winning Account</th>
+                        <th style="text-align: center;" class="is-hidden-desktop">Winning Account</th>
                     </tr>
                   </thead>
                 <tbody>
                 {% for row in lottery_table %}
                     <tr >
+                        <td style="text-align: center;" class="has-text-dark"><a href="/ticketdetail/{{row.id}}"><u>{{row.id}}</u></a></td>
                         <td style="text-align: center;">{{row.endblock}}</td>
                         <td style="text-align: center;">{{row.time}}</td>
                         <td style="text-align: center;">{{row.pot}}</td>

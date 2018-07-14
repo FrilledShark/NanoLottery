@@ -24,20 +24,23 @@ def limit_table_size(table):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # Selecting the most recent lottery
-    lottery = Lottery.select().order_by(Lottery.endblock.desc())[0]
+    # for lottery in Lottery.select().order_by(Lottery.endblock.desc()):
+    #    lottery = lottery
+    #    break
+    curr_lottery = Lottery.select().order_by(Lottery.endblock.desc()).get()
 
     # Calculating pot
-    pot = Decimal(0)
-    for _ in lottery.tickets:
-        pot += Decimal("0.01")
+    # pot = Decimal(0)
+    # for _ in lottery.tickets:
+    #    pot += Decimal("0.01")
+    pot = curr_lottery.tickets.count() * Decimal("0.01")
 
     # Calculating remaining time
-    remaining_blocks = lottery.endblock - last_blockchain() - config["block_limit"]
+    remaining_blocks = curr_lottery.endblock - last_blockchain() - config["block_limit"]
 
     remaining_time = remaining_blocks*10
     table = []
-    for ticket in lottery.tickets.order_by(Ticket.time.desc()):
+    for ticket in curr_lottery.tickets.order_by(Ticket.time.desc()):
         ticket_info = {"date": str(ticket.time)[:19], "ticket": ticket.ticket, "account": ticket.account,
                        "endblock": ticket.lottery.endblock, "hash": ticket.hash,
                        "altaccount": f'{ticket.account[:8]}...{ticket.account[-4:]}'}
@@ -46,7 +49,7 @@ def index():
     table = limit_table_size(table)
 
     return render_template("index.html", pot=pot, time=remaining_time,
-                           account=config["account"], table=table, endblock=lottery.endblock)
+                           account=config["account"], table=table, endblock=curr_lottery.endblock)
 
 
 @app.route('/lottery', methods=['GET', 'POST'])
@@ -60,19 +63,20 @@ def lotteries():
         else:
             lottery_winner = None
             alt_winner = None
-        pot = Decimal(0)
-        for _ in lottery.tickets:
-            pot += Decimal("0.01")
+        # pot = Decimal(0)
+        # for _ in lottery.tickets:
+        #    pot += Decimal("0.01")
+        pot = lottery.tickets.count() * Decimal("0.01")
 
-        if lottery.due == False:
-            lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
+        if not lottery.due:
+            lottery_dir = {"id": lottery.id, "endblock": lottery.endblock, "time": str(lottery.time)[:19],
                            "pot": pot, "roll": lottery.roll, "winner": lottery_winner,
                            "winner_hash": lottery.winner_hash, "alt_winner": alt_winner}
-        elif lottery.due == True:
-            lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
+        elif lottery.due:
+            lottery_dir = {"id": lottery.id, "endblock": lottery.endblock, "time": str(lottery.time)[:19],
                            "pot": pot, "roll": "Waiting for block for ", "winner": lottery_winner, "alt_winner": alt_winner}
-        elif lottery.due == None:
-            lottery_dir = {"endblock": lottery.endblock, "time": str(lottery.time)[:19],
+        elif lottery.due is None:
+            lottery_dir = {"id": lottery.id, "endblock": lottery.endblock, "time": str(lottery.time)[:19],
                            "pot": pot, "roll": "In progress", "winner": lottery_winner, "alt_winner": alt_winner}
 
         lottery_table.append(lottery_dir)
@@ -87,13 +91,29 @@ def tickets():
     # Tickets
     ticket_table = []
     for ticket in Ticket.select().join(Lottery).order_by(Lottery.endblock.desc(), Ticket.ticket.desc()):
-        ticket_dir = {"endblock": ticket.lottery.endblock, "ticket": ticket.ticket,
+        ticket_dir = {"id": ticket.lottery.id, "endblock": ticket.lottery.endblock, "ticket": ticket.ticket,
                       "time": str(ticket.time)[:19], "account": ticket.account, "hash": ticket.hash}
         ticket_table.append(ticket_dir)
 
     ticket_table = limit_table_size(ticket_table)
 
     return render_template("ticket.html", ticket_table=ticket_table)
+
+
+@app.route('/ticketdetail/<drawing_number>', methods=['GET', 'POST'])
+def drawing_details(drawing_number):
+    # Display details on the specific drawing
+    lottery_table = []
+    for ticket in Ticket.select().join(Lottery).where(Lottery.id == drawing_number):
+        ticket_dir = {"id": ticket.lottery.id, "endblock": ticket.lottery.endblock, "ticket": ticket.ticket,
+                      "time": str(ticket.time)[:19], "account": ticket.account, "hash": ticket.hash,
+                      "altaccount": f'{ticket.account[:8]}...{ticket.account[-4:]}'}
+        lottery_table.append(ticket_dir)
+
+    lottery_table = limit_table_size(lottery_table)
+
+    return render_template("ticketdetail.html", ticket_table=lottery_table)
+
 
 @app.route('/fair', methods=['GET', 'POST'])
 def fair():

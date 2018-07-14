@@ -43,10 +43,10 @@
         <div class="container">
             <div class="columns">
                 <div class="column">
-                    <h1 class="title">All tickets</h1>
+                    <h1 class="title">Lottery Details</h1>
                 </div>
                 <div align="right" class="column">
-                    <a href="/lottery" class="button">Lotteries</a>
+                    <a href="/lottery" class="button">Full History</a>
                 </div>
             </div>
 
@@ -69,17 +69,17 @@
                 <tr>
                     <th style="text-align: center;">Drawing Number</th>
                     <th style="text-align: center;">Ticket Number</th>
-                    <th style="text-align: center;">Purchase Date (UTC)</th>
-                    <th class="is-hidden-mobile" style="text-align: center;">Account</th>
+                    <th style="text-align: center;" class="is-hidden-touch">Account</th>
+                    <th style="text-align: center;" class="is-hidden-desktop">Account</th>
                 </tr>
               </thead>
             <tbody>
             {% for row in ticket_table %}
                 <tr >
-                    <td style="text-align: center;">{{row.endblock}}</td>
+                    <td style="text-align: center;">{{row.id}}</td>
                     <td style="text-align: center;">{{row.ticket}}</td>
-                    <td style="text-align: center;">{{row.time}}</td>
-                    <td class="is-hidden-mobile" style="text-align: center;"><a href="https://www.nanode.co/block/{{row.hash}}"><u>{{row.account}}</u></a></td>
+                    <td style="text-align: center;" class="is-hidden-touch"><a href="https://www.nanode.co/block/{{row.hash}}"><u>{{row.account}}</u></a></td>
+                    <td style="text-align: center;" class="is-hidden-desktop"><a href="https://www.nanode.co/block/{{row.hash}}"><u>{{row.altaccount}}</u></a></td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -90,7 +90,6 @@
   <div class="content has-text-centered">
       <p>
           <strong><a href="https://github.com/FrilledShark/NanoLottery">Nano Lottery</a></strong> built for <a class="is-link" href="https://nano.org">Nano</a>
-
       </p>
   </div>
 </footer>
