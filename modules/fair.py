@@ -24,18 +24,18 @@ def last_blockchain():
     return block
 
 
+# Getting the roll as a decimal number between 0 and 1. 1 is the highest possible roll and 0 is the lowest.
 def roll(block_hash):
     length = 8
     max_hex = "".join("f" for x in range(length))
-    max_deci = int(max_hex, 16)
-    roll_deci = int(block_hash[-length:], 16)
-    return roll_deci/max_deci
+    max_int = int(max_hex, 16)
+    roll_int = int(block_hash[-length:], 16)
+    return roll_int/max_int
 
 
-def roll_between(high, roll_int):
-    between_roll = round(roll_int * high) + 1
-    # Highest and lowest share their win rate. Add them together to get correct roll.
-    # Also fixes the problem that this generates high + 1 results.
-    if between_roll == high + 1:
-        return 1
+# Converting the decimal number to a range.
+def roll_between(high, roll_deci):
+    # This counts as round_down. Every number has the same potential for round down.
+    # Eg. 20 has from 20 to 21 and 1 has from 1 to 2.
+    between_roll = int(roll_deci * high) + 1
     return between_roll
