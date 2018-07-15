@@ -53,7 +53,7 @@ if __name__ == "__main__":
         # Check if any lotteries can be fixed:
         for lottery in Lottery.select().where(Lottery.due == True):
             # Possible to continue?
-            if current_block >= lottery.endblock:
+            if current_block > lottery.endblock:  # Needs to be 1 bigger to avoid orphans.
                 # Needs to get number of tickets sold
                 tickets_sold = 0
                 for ticket_sold in Ticket.select().join(Lottery).where(Lottery.id == lottery.id):
